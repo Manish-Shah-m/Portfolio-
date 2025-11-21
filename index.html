@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manish Shah - Web Developer & Designer crafting digital experiences.">
+    <meta name="author" content="Manish Shah">
+    <title>Manish Shah | Creative Developer</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#050505',
+                        card: '#0A0A0A',
+                        accent: '#6366f1',
+                        'accent-glow': '#818cf8',
+                    },
+                    animation: {
+                        'spin-slow': 'spin 12s linear infinite',
+                        'marquee': 'marquee 25s linear infinite',
+                        'marquee-reverse': 'marquee-reverse 25s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        },
+                        'marquee-reverse': {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(0%)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6366f1;
+        }
+
+        /* Background Grid Pattern */
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+            position: absolute;
+            inset: 0;
+            z-index: -5;
+        }
+
+        /* Noise Texture Overlay */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        body:hover .cursor-outline {
+            width: 40px;
+            height: 40px;
+        }
+        body:active .cursor-outline {
+            width: 20px;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Utilities */
+        .text-stroke {
+            -webkit-text-stroke: 1px rgba(255,255,255,0.2);
+            color: transparent;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(to right, #fff, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Image Fallback Styling */
+        img {
+            background-color: #1a1a1a;
+            position: relative;
+        }
+        img::after {
+            content: attr(alt);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #111;
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            padding: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-dark text-gray-200 overflow-x-hidden selection:bg-accent selection:text-white cursor-none">
+    
+    <!-- Noise Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-40 transition-all duration-300 py-6 px-6 md:px-12 mix-blend-difference" id="navbar">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold tracking-tighter hover:text-accent transition-colors">MANISH.</a>
+            
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden z-50 text-white focus:outline-none" id="menu-btn">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex gap-8 items-center">
+                <a href="#work" class="text-sm font-medium hover:text-accent transition-colors relative group">
+                    WORK
+                    <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#about" class="text-sm font-medium hover:text-accent transition-colors relative group">
+                    ABOUT
+                    <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#contact" class="px-5 py-2 border border-white/20 rounded-full text-sm font-medium hover:bg-white hover:text-black transition-all duration-300">
+                    LET'S TALK
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="fixed inset-0 bg-dark z-40 transform translate-x-full transition-transform duration-500 flex flex-col items-center justify-center gap-8 md:hidden" id="mobile-menu">
+        <a href="#work" class="text-3xl font-bold hover:text-accent mobile-link">WORK</a>
+        <a href="#about" class="text-3xl font-bold hover:text-accent mobile-link">ABOUT</a>
+        <a href="#contact" class="text-3xl font-bold hover:text-accent mobile-link">CONTACT</a>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="min-h-screen flex flex-col lg:flex-row items-center justify-center px-6 md:px-12 relative overflow-hidden pt-20">
+            <!-- Background Elements -->
+            <div class="bg-grid-pattern"></div>
+            <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[120px] -z-10 animate-pulse-slow"></div>
+            <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[100px] -z-10"></div>
+
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div class="z-10">
+                    <div class="mb-6 flex items-center gap-4 reveal-on-scroll">
+                        <span class="w-12 h-[1px] bg-accent"></span>
+                        <span class="uppercase tracking-widest text-sm text-accent-glow font-medium">Available for work</span>
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tighter mb-8 reveal-on-scroll" style="transition-delay: 100ms;">
+                        CREATIVE<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gray-500">DEVELOPER</span><br>
+                        & <span class="text-stroke hover:text-accent transition-colors duration-500 cursor-default">DESIGNER</span>
+                    </h1>
+                    
+                    <p class="max-w-lg text-lg md:text-xl text-gray-400 leading-relaxed mb-10 reveal-on-scroll border-l-2 border-white/10 pl-6" style="transition-delay: 200ms;">
+                        I'm Manish Shah. I craft digital experiences where creativity meets logic. 
+                        Specializing in responsive web design, modern UI/UX, and full-stack development.
+                    </p>
+
+                    <div class="flex flex-wrap gap-6 reveal-on-scroll" style="transition-delay: 300ms;">
+                        <a href="#work" class="group relative px-8 py-4 bg-white text-dark rounded-full font-semibold overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] transition-shadow duration-300">
+                            <span class="relative z-10 group-hover:text-white transition-colors duration-300">View My Work</span>
+                            <div class="absolute inset-0 bg-accent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                        </a>
+                        <a href="#contact" class="px-8 py-4 border border-white/20 rounded-full font-semibold hover:bg-white/5 hover:border-white/50 transition-all duration-300">
+                            Contact Me
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Visual (3D Code Card) -->
+                <div class="flex justify-center lg:justify-end items-center relative reveal-on-scroll mt-12 lg:mt-0 scale-75 md:scale-100" style="transition-delay: 400ms;">
+                    <!-- Animated Container -->
+                    <div class="relative w-[450px] h-[450px] transition-transform duration-500 hover:[transform:perspective(1000px)_rotateX(0deg)_rotateY(0deg)] [transform:perspective(1000px)_rotateX(5deg)_rotateY(-5deg)]">
+                        
+                        <!-- Floating Glow Behind -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-accent/30 to-purple-600/30 rounded-full blur-3xl animate-pulse-slow"></div>
+
+                        <!-- Main Code Window -->
+                        <div class="absolute top-10 left-10 right-0 bottom-10 bg-[#0f0f12]/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden group">
+                            <!-- Window Header -->
+                            <div class="h-8 bg-white/5 border-b border-white/5 flex items-center px-4 gap-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                                <div class="ml-auto text-[10px] text-gray-500 font-mono">portfolio.config.js</div>
+                            </div>
+                            
+                            <!-- Code Content -->
+                            <div class="p-6 font-mono text-sm text-gray-300 space-y-2 overflow-hidden">
+                                <div class="flex">
+                                    <span class="text-gray-600 w-6 select-none">1</span>
+                                    <p><span class="text-purple-400">const</span> <span class="text-blue-400">developer</span> = {</p>
+                                </div>
+                                <div class="flex">
+                                    <span class="text-gray-600 w-6 select-none">2</span>
+                                    <p class="pl-4">name: <span class="text-green-400">'Manish Shah'</span>,</p>
+                                </div>
+                                <div class="flex">
+                                    <span class="text-gray-600 w-6 select-none">3</span>
+                                    <p class="pl-4">role: <span class="text-green-400">'Creative Dev'</span>,</p>
+                                </div>
+                                <div class="flex">
+                                    <span class="text-gray-600 w-6 select-none">4</span>
+                                    <p class="pl-4">skills: [</p>
+                                </div>
+                                <div class="flex">
+                                    <span class="text-gray-600 w-6 select-none">5</span>
+                                    <p class="pl-8"><span class="text-yellow-300">'JavaScript'</span>, <span class="text-cyan-400">'React'</span>,</p>
+                                </div>
+                                <div class="flex">
+                                    <span class="text-gray-600 w-6 select-none">6</span>
+                                    <p class="pl-8"><span class="text-red-400">'HTML5'</span>, <span class="text-blue-500">'CSS3'</span></p>
+                                </div>
+                                <div class="flex">
+                                    <span class="text-gray-600 w-6 select-none">7</span>
+                                    <p class="pl-4">],</p>
+                                </div>
+                                <div class="flex">
+                                    <span class="text-gray-600 w-6 select-none">8</span>
+                                    <p class="pl-4">hardWorker: <span class="text-orange-400">true</span>,</p>
+                                </div>
+                                <div class="flex">
+                                    <span class="text-gray-600 w-6 select-none">9</span>
+                                    <p class="pl-4">quickLearner: <span class="text-orange-400">true</span></p>
+                                </div>
+                                <div class="flex">
+                                    <span class="text-gray-600 w-6 select-none">10</span>
+                                    <p>}</p>
+                                </div>
+                                <!-- Typing Cursor -->
+                                <div class="flex mt-2">
+                                    <span class="text-gray-600 w-6 select-none">11</span>
+                                    <p class="pl-4"><span class="w-2 h-4 bg-accent animate-pulse inline-block align-middle"></span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Floating Element 1 (React) -->
+                        <div class="absolute -right-2 top-20 bg-[#1a1a1a] border border-white/10 p-4 rounded-2xl shadow-xl animate-float z-20">
+                            <i class="fab fa-react text-4xl text-[#61DAFB] animate-spin-slow"></i>
+                        </div>
+
+                        <!-- Floating Element 2 (Stats) -->
+                        <div class="absolute left-0 bottom-16 bg-[#1a1a1a]/90 backdrop-blur border border-white/10 px-5 py-3 rounded-xl shadow-xl animate-float z-20" style="animation-delay: 2s;">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400">Projects Completed</p>
+                                    <p class="text-lg font-bold text-white">15+</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block">
+                <i class="fas fa-arrow-down text-gray-500"></i>
+            </div>
+        </section>
+
+        <!-- Infinite Marquee - Tech Stack -->
+        <section class="py-12 border-y border-white/5 bg-black/50 backdrop-blur-sm overflow-hidden">
+            <div class="flex whitespace-nowrap animate-marquee hover:pause">
+                <!-- Tech Items Duplicated for smooth loop -->
+                <div class="flex gap-16 mx-8 text-2xl md:text-4xl font-bold text-gray-500 uppercase opacity-50 items-center">
+                    <span>HTML5</span><span>•</span>
+                    <span>CSS3</span><span>•</span>
+                    <span>JavaScript</span><span>•</span>
+                    <span class="text-accent">React</span><span>•</span>
+                    <span>Next.js</span><span>•</span>
+                    <span>Tailwind</span><span>•</span>
+                    <span>Node.js</span><span>•</span>
+                    <span>Git</span><span>•</span>
+                    <span>UI/UX</span><span>•</span>
+                    <span>Figma</span><span>•</span>
+                    <span>Sass</span><span>•</span>
+                     <!-- Duplicate -->
+                    <span>HTML5</span><span>•</span>
+                    <span>CSS3</span><span>•</span>
+                    <span>JavaScript</span><span>•</span>
+                    <span class="text-accent">React</span><span>•</span>
+                    <span>Next.js</span><span>•</span>
+                    <span>Tailwind</span><span>•</span>
+                    <span>Node.js</span><span>•</span>
+                    <span>Git</span><span>•</span>
+                    <span>UI/UX</span><span>•</span>
+                    <span>Figma</span><span>•</span>
+                    <span>Sass</span><span>•</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- About & Bento Grid Section -->
+        <section id="about" class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 h-full">
+                
+                <!-- Profile & Bio (Span 2 cols) -->
+                <div class="md:col-span-2 glass-card rounded-3xl p-6 md:p-8 flex flex-col justify-between reveal-on-scroll md:h-[420px]">
+                    <div>
+                        <div class="flex items-center gap-3 mb-6">
+                            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                            <span class="text-sm text-gray-400 uppercase tracking-widest font-medium">Available for Work</span>
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">About The <span class="text-accent">Craft</span></h2>
+                        <p class="text-gray-400 text-base md:text-lg leading-relaxed mb-4">
+                            My journey into development started with a curiosity about how things work on the web. 
+                            What began as experimenting with HTML & CSS evolved into a deep passion for creating digital 
+                            experiences that matter.
+                        </p>
+                        <p class="text-gray-400 text-base md:text-lg leading-relaxed">
+                            I believe in code that's clean, maintainable, and elegant. Whether I'm building a 
+                            personal project or working with a team, I bring the same level of passion and dedication.
+                        </p>
+                    </div>
+                    <div class="mt-6 flex gap-4">
+                        <a href="https://github.com/Manish-Shah-m" target="_blank" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/manish-shah-8558392a7" target="_blank" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300">
+                            <i class="fab fa-linkedin-in text-xl"></i>
+                        </a>
+                        <a href="https://www.instagram.com/_manish_who" target="_blank" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Photo / Visual (Span 1 col) -->
+                <div class="md:col-span-1 glass-card rounded-3xl overflow-hidden relative group h-80 md:h-[420px] reveal-on-scroll" style="transition-delay: 100ms;">
+                    <div class="absolute inset-0 bg-accent/10 z-10 group-hover:bg-transparent transition-colors duration-500"></div>
+                    <img src="image/mhe !.jpg" alt="Manish Shah" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 grayscale group-hover:grayscale-0">
+                    <div class="absolute bottom-0 left-0 w-full p-6 z-20 bg-gradient-to-t from-black/90 to-transparent">
+                        <p class="font-bold text-xl">Manish Shah</p>
+                        <p class="text-sm text-gray-400">Creative Developer</p>
+                    </div>
+                </div>
+
+                <!-- Skill Card 1 (Frontend) -->
+                <div class="glass-card rounded-3xl p-8 flex flex-col justify-center items-center text-center group hover:bg-accent/10 transition-colors reveal-on-scroll h-[250px]">
+                    <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-laptop-code text-3xl text-accent"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Frontend</h3>
+                    <p class="text-sm text-gray-400">React, Next.js, Tailwind</p>
+                </div>
+
+                <!-- Skill Card 2 (Backend) -->
+                <div class="glass-card rounded-3xl p-8 flex flex-col justify-center items-center text-center group hover:bg-accent/10 transition-colors reveal-on-scroll h-[250px]" style="transition-delay: 100ms;">
+                    <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-server text-3xl text-accent"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Backend</h3>
+                    <p class="text-sm text-gray-400">Node.js, MySQL, Java</p>
+                </div>
+
+                <!-- Stats / Callout -->
+                <div class="glass-card rounded-3xl p-8 flex flex-col justify-center items-center text-center bg-gradient-to-br from-accent to-purple-900 border-none reveal-on-scroll h-[250px]" style="transition-delay: 200ms;">
+                    <h3 class="text-5xl font-bold mb-2">100%</h3>
+                    <p class="text-sm text-white/80 uppercase tracking-widest">Commitment</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Featured Projects -->
+        <section id="work" class="py-24 px-6 md:px-12 bg-black">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal-on-scroll">
+                    <div>
+                        <span class="text-accent uppercase tracking-widest text-sm font-bold mb-2 block">Portfolio</span>
+                        <h2 class="text-4xl md:text-6xl font-bold">Selected <span class="text-stroke">Works</span></h2>
+                    </div>
+                    <a href="https://github.com/Manish-Shah-m" target="_blank" class="hidden md:flex items-center gap-2 text-sm border-b border-white/20 pb-1 hover:text-accent hover:border-accent transition-all mt-6 md:mt-0">
+                        View All Repos <i class="fas fa-arrow-right transform -rotate-45 group-hover:rotate-0 transition-transform"></i>
+                    </a>
+                </div>
+
+                <div class="space-y-24">
+                    
+                    <!-- Project 1 -->
+                    <div class="group relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center reveal-on-scroll">
+                        <div class="order-2 lg:order-1">
+                            <div class="flex items-center gap-4 mb-4 text-accent font-mono text-sm">
+                                <span>01</span>
+                                <span class="h-[1px] w-12 bg-accent"></span>
+                                <span>E-Commerce</span>
+                            </div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4 group-hover:text-accent transition-colors">STITCH & HUE</h3>
+                            <p class="text-gray-400 leading-relaxed mb-6 max-w-md">
+                                A fully responsive e-commerce website with product API, comprehensive functionality, and an eye-catching modern design built with Bootstrap.
+                            </p>
+                            <div class="flex gap-3 mb-8 flex-wrap">
+                                <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">Bootstrap</span>
+                                <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">API</span>
+                                <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">JavaScript</span>
+                            </div>
+                            <a href="https://manish-shah-m.github.io/STITCH-HUE/" target="_blank" class="inline-flex items-center gap-2 font-bold hover:text-accent transition-colors">
+                                View Project <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="order-1 lg:order-2 relative overflow-hidden rounded-2xl">
+                            <div class="absolute inset-0 bg-accent/20 group-hover:bg-transparent z-10 transition-colors duration-500"></div>
+                            <img src="image/ecom-screen.png" alt="STITCH & HUE" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700">
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="group relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center reveal-on-scroll">
+                        <div class="order-2 lg:order-2">
+                            <div class="flex items-center gap-4 mb-4 text-accent font-mono text-sm">
+                                <span>02</span>
+                                <span class="h-[1px] w-12 bg-accent"></span>
+                                <span>Travel & Tourism</span>
+                            </div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4 group-hover:text-accent transition-colors">Himalayan Home</h3>
+                            <p class="text-gray-400 leading-relaxed mb-6 max-w-md">
+                                Nepal's Travel & Tour responsive website focused on exploring and travelling Nepal. Immersive imagery and smooth navigation.
+                            </p>
+                            <div class="flex gap-3 mb-8 flex-wrap">
+                                <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">HTML5</span>
+                                <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">CSS3</span>
+                                <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">JS</span>
+                            </div>
+                            <a href="https://manish-shah-m.github.io/Himalayan-Home/" target="_blank" class="inline-flex items-center gap-2 font-bold hover:text-accent transition-colors">
+                                View Project <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="order-1 lg:order-1 relative overflow-hidden rounded-2xl">
+                            <div class="absolute inset-0 bg-accent/20 group-hover:bg-transparent z-10 transition-colors duration-500"></div>
+                            <img src="image/Travel-scree.png" alt="Himalayan Home" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700">
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="group relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center reveal-on-scroll">
+                        <div class="order-2 lg:order-1">
+                            <div class="flex items-center gap-4 mb-4 text-accent font-mono text-sm">
+                                <span>03</span>
+                                <span class="h-[1px] w-12 bg-accent"></span>
+                                <span>Corporate</span>
+                            </div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4 group-hover:text-accent transition-colors">ATOM</h3>
+                            <p class="text-gray-400 leading-relaxed mb-6 max-w-md">
+                                A modern & futuristic corporate website focused on providing various facilities and services with a clean, professional aesthetic.
+                            </p>
+                            <div class="flex gap-3 mb-8 flex-wrap">
+                                <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">SASS</span>
+                                <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">Bootstrap</span>
+                            </div>
+                            <a href="https://manish-shah-m.github.io/ATOM/" target="_blank" class="inline-flex items-center gap-2 font-bold hover:text-accent transition-colors">
+                                View Project <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="order-1 lg:order-2 relative overflow-hidden rounded-2xl">
+                            <div class="absolute inset-0 bg-accent/20 group-hover:bg-transparent z-10 transition-colors duration-500"></div>
+                            <img src="image/image.png" alt="ATOM" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700">
+                        </div>
+                    </div>
+
+                    <!-- Project 4 -->
+                    <div class="group relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center reveal-on-scroll">
+                        <div class="order-2 lg:order-2">
+                            <div class="flex items-center gap-4 mb-4 text-accent font-mono text-sm">
+                                <span>04</span>
+                                <span class="h-[1px] w-12 bg-accent"></span>
+                                <span>Non-Profit</span>
+                            </div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4 group-hover:text-accent transition-colors">Nepal Green Alliance</h3>
+                            <p class="text-gray-400 leading-relaxed mb-6 max-w-md">
+                                An NGO website dedicated to enhancing the lives of people and the environment in Nepal. Focused on accessibility and clear messaging.
+                            </p>
+                            <div class="flex gap-3 mb-8 flex-wrap">
+                                <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">JavaScript</span>
+                                <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">HTML</span>
+                                <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">SASS</span>
+                            </div>
+                            <a href="https://manish-shah-m.github.io/Nepal-Green/" target="_blank" class="inline-flex items-center gap-2 font-bold hover:text-accent transition-colors">
+                                View Project <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="order-1 lg:order-1 relative overflow-hidden rounded-2xl">
+                            <div class="absolute inset-0 bg-accent/20 group-hover:bg-transparent z-10 transition-colors duration-500"></div>
+                            <img src="image/NGO.png" alt="Nepal Green Alliance" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700">
+                        </div>
+                    </div>
+
+                    <!-- Project 5 -->
+                    <div class="group relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center reveal-on-scroll">
+                        <div class="order-2 lg:order-1">
+                            <div class="flex items-center gap-4 mb-4 text-accent font-mono text-sm">
+                                <span>05</span>
+                                <span class="h-[1px] w-12 bg-accent"></span>
+                                <span>Utility App</span>
+                            </div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4 group-hover:text-accent transition-colors">Weather Dashboard</h3>
+                            <p class="text-gray-400 leading-relaxed mb-6 max-w-md">
+                                A clean, responsive dashboard showing real-time weather updates for cities across Nepal using public APIs.
+                            </p>
+                            <div class="flex gap-3 mb-8 flex-wrap">
+                                <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">HTML5</span>
+                                <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">CSS</span>
+                                <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">API</span>
+                            </div>
+                            <a href="https://manish-shah-m.github.io/weather-dashboard-/" target="_blank" class="inline-flex items-center gap-2 font-bold hover:text-accent transition-colors">
+                                View Project <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="order-1 lg:order-2 relative overflow-hidden rounded-2xl">
+                            <div class="absolute inset-0 bg-accent/20 group-hover:bg-transparent z-10 transition-colors duration-500"></div>
+                            <img src="image/weather.png" alt="Weather Dashboard" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Archive / Journey Section -->
+        <section class="py-24 px-6 md:px-12 border-t border-white/5 bg-dark/50">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 reveal-on-scroll">
+                    <h2 class="text-4xl md:text-5xl font-bold">The Journey <span class="text-gray-500 text-2xl block mt-2">Archive</span></h2>
+                    <p class="text-gray-400 max-w-lg text-left md:text-right mt-6 md:mt-0 pb-2 leading-relaxed">
+                        A curated timeline of my development career, showcasing key projects, open-source contributions, and the technical milestones I've achieved along the way.
+                    </p>
+                </div>
+                
+                <div class="overflow-x-auto reveal-on-scroll">
+                    <table class="w-full text-left text-sm md:text-base border-collapse">
+                        <thead class="text-gray-500 border-b border-white/10">
+                            <tr>
+                                <th class="py-4 pr-8 font-medium">Year</th>
+                                <th class="py-4 pr-8 font-medium">Project</th>
+                                <th class="py-4 pr-8 font-medium hidden md:table-cell">Description</th>
+                                <th class="py-4 pr-8 font-medium hidden sm:table-cell">Tech Stack</th>
+                                <th class="py-4 font-medium">Link</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-300">
+                            <!-- 2024 -->
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                                <td class="py-4 pr-8 text-gray-500">2024</td>
+                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">CropNest</td>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">Agricultural Management System</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell flex flex-wrap gap-2">
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Python</span>
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">HTML</span>
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">CSS</span>
+                                </td>
+                                <td class="py-4">
+                                    <a href="#" class="hover:text-accent transition-colors"><i class="fas fa-arrow-right transform -rotate-45"></i></a>
+                                </td>
+                            </tr>
+                            <!-- 2023 -->
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                                <td class="py-4 pr-8 text-gray-500">2023</td>
+                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">Restaurant Sys.</td>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">Admin & User Management Dashboard</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell flex flex-wrap gap-2">
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Java</span>
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Swing</span>
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">MySQL</span>
+                                </td>
+                                <td class="py-4">
+                                    <a href="#" class="hover:text-accent transition-colors"><i class="fas fa-arrow-right transform -rotate-45"></i></a>
+                                </td>
+                            </tr>
+                            <!-- 2022 - Library -->
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                                <td class="py-4 pr-8 text-gray-500">2022</td>
+                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">Library Manager</td>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">Book Inventory & Fee Logic</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell flex flex-wrap gap-2">
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">C++</span>
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">File Handling</span>
+                                </td>
+                                <td class="py-4">
+                                    <a href="#" class="hover:text-accent transition-colors"><i class="fas fa-arrow-right transform -rotate-45"></i></a>
+                                </td>
+                            </tr>
+                            <!-- 2022 - Nepal Green -->
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                                <td class="py-4 pr-8 text-gray-500">2022</td>
+                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">Nepal Green Alliance</td>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">NGO Website Development</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell flex flex-wrap gap-2">
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">JavaScript</span>
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">SASS</span>
+                                </td>
+                                <td class="py-4">
+                                    <a href="https://manish-shah-m.github.io/Nepal-Green/" target="_blank" class="hover:text-accent transition-colors"><i class="fas fa-arrow-right transform -rotate-45"></i></a>
+                                </td>
+                            </tr>
+                            <!-- 2022 - Stitch & Hue -->
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                                <td class="py-4 pr-8 text-gray-500">2022</td>
+                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">STITCH & HUE</td>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">E-commerce Platform</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell flex flex-wrap gap-2">
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Bootstrap</span>
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">API</span>
+                                </td>
+                                <td class="py-4">
+                                    <a href="https://manish-shah-m.github.io/STITCH-HUE/" target="_blank" class="hover:text-accent transition-colors"><i class="fas fa-arrow-right transform -rotate-45"></i></a>
+                                </td>
+                            </tr>
+                            <!-- 2022 - Himalayan Home -->
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                                <td class="py-4 pr-8 text-gray-500">2022</td>
+                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">Himalayan Home</td>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">Travel & Tourism Website</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell flex flex-wrap gap-2">
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">HTML5</span>
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">JS</span>
+                                </td>
+                                <td class="py-4">
+                                    <a href="https://manish-shah-m.github.io/Himalayan-Home/" target="_blank" class="hover:text-accent transition-colors"><i class="fas fa-arrow-right transform -rotate-45"></i></a>
+                                </td>
+                            </tr>
+                            <!-- 2022 - ATOM -->
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                                <td class="py-4 pr-8 text-gray-500">2022</td>
+                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">ATOM</td>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">Corporate Website</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell flex flex-wrap gap-2">
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">SASS</span>
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Bootstrap</span>
+                                </td>
+                                <td class="py-4">
+                                    <a href="https://manish-shah-m.github.io/ATOM/" target="_blank" class="hover:text-accent transition-colors"><i class="fas fa-arrow-right transform -rotate-45"></i></a>
+                                </td>
+                            </tr>
+                            <!-- 2022 - Weather Dashboard -->
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                                <td class="py-4 pr-8 text-gray-500">2022</td>
+                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">Weather Dashboard</td>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">Weather Utility App</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell flex flex-wrap gap-2">
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">API</span>
+                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">JS</span>
+                                </td>
+                                <td class="py-4">
+                                    <a href="https://manish-shah-m.github.io/weather-dashboard-/" target="_blank" class="hover:text-accent transition-colors"><i class="fas fa-arrow-right transform -rotate-45"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="min-h-screen flex flex-col justify-center relative py-24 px-6 md:px-12 overflow-hidden">
+            <!-- Footer Glow -->
+            <div class="absolute bottom-[-20%] left-1/2 transform -translate-x-1/2 w-[800px] h-[600px] bg-accent/10 rounded-full blur-[150px] -z-10"></div>
+
+            <div class="max-w-7xl mx-auto w-full text-center">
+                <p class="text-accent uppercase tracking-widest text-sm font-bold mb-8 reveal-on-scroll">What's Next?</p>
+                
+                <h2 class="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-12 hover:text-stroke transition-all duration-500 cursor-default reveal-on-scroll">
+                    LET'S WORK<br>TOGETHER
+                </h2>
+
+                <div class="flex justify-center mb-16 reveal-on-scroll">
+                    <a href="mailto:whoismanish12@gmail.com" class="text-xl md:text-3xl border-b border-white/30 pb-2 hover:text-accent hover:border-accent transition-all">
+                        whoismanish12@gmail.com
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-2xl mx-auto reveal-on-scroll">
+                    <a href="https://github.com/Manish-Shah-m" target="_blank" class="glass-card p-6 rounded-2xl flex flex-col items-center gap-3 hover:bg-white hover:text-black transition-all duration-300 group">
+                        <i class="fab fa-github text-2xl"></i>
+                        <span class="font-bold">GitHub</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/manish-shah-8558392a7" target="_blank" class="glass-card p-6 rounded-2xl flex flex-col items-center gap-3 hover:bg-[#0077b5] hover:text-white transition-all duration-300 group">
+                        <i class="fab fa-linkedin text-2xl"></i>
+                        <span class="font-bold">LinkedIn</span>
+                    </a>
+                    <a href="https://www.instagram.com/_manish_who" target="_blank" class="glass-card p-6 rounded-2xl flex flex-col items-center gap-3 hover:bg-[#E1306C] hover:text-white transition-all duration-300 group">
+                        <i class="fab fa-instagram text-2xl"></i>
+                        <span class="font-bold">Instagram</span>
+                    </a>
+                    <a href="mailto:whoismanish12@gmail.com" class="glass-card p-6 rounded-2xl flex flex-col items-center gap-3 hover:bg-accent hover:text-white transition-all duration-300 group">
+                        <i class="fas fa-envelope text-2xl"></i>
+                        <span class="font-bold">Email</span>
+                    </a>
+                </div>
+            </div>
+
+            <footer class="absolute bottom-6 left-0 w-full px-6 md:px-12">
+                <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 items-center text-sm text-gray-500 border-t border-white/5 pt-6 gap-4">
+                    <!-- Left: Copyright -->
+                    <div class="text-center md:text-left order-3 md:order-1">
+                        <p>&copy; 2025 Manish Shah.</p>
+                    </div>
+                    
+                    <!-- Center: Crafted Text -->
+                    <div class="text-center order-1 md:order-2 flex justify-center">
+                        <p class="text-gray-400 text-sm font-medium">
+                            Crafted with <span class="text-red-500 animate-pulse">❤️</span> & Code.
+                        </p>
+                    </div>
+                    
+                    <!-- Right: Time -->
+                    <div class="flex items-center justify-center md:justify-end gap-2 order-2 md:order-3">
+                        <span class="text-accent font-bold">KTM</span>
+                        <span id="nepal-time" class="font-mono text-gray-300 bg-white/5 px-2 py-1 rounded">--:--:--</span>
+                    </div>
+                </div>
+            </footer>
+        </section>
+    </main>
+
+    <script>
+        // Custom Cursor
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Add some delay to the outline for a trailing effect
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('translate-x-full');
+                menuBtn.innerHTML = '<i class="fas fa-times text-2xl"></i>';
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenu.classList.add('translate-x-full');
+                menuBtn.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenu.classList.add('translate-x-full');
+                menuBtn.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal-on-scroll');
+
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 100;
+
+            revealElements.forEach((reveal) => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('visible');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        // Trigger once on load
+        revealOnScroll();
+
+        // Navbar Glass Effect on Scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-dark/80', 'backdrop-blur-md', 'border-b', 'border-white/5');
+                navbar.classList.remove('mix-blend-difference');
+            } else {
+                navbar.classList.remove('bg-dark/80', 'backdrop-blur-md', 'border-b', 'border-white/5');
+                navbar.classList.add('mix-blend-difference');
+            }
+        });
+
+        // Nepal Time Clock
+        const updateTime = () => {
+            const timeElement = document.getElementById('nepal-time');
+            const now = new Date();
+            const options = { 
+                timeZone: 'Asia/Kathmandu', 
+                hour12: true, 
+                hour: 'numeric', 
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
+            if(timeElement) timeElement.textContent = timeString;
+        };
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>
