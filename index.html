@@ -60,21 +60,11 @@
 
     <style>
         /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #050505;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #6366f1;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6366f1; }
 
-        /* Background Grid Pattern */
         .bg-grid-pattern {
             background-size: 40px 40px;
             background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
@@ -86,107 +76,121 @@
             z-index: -5;
         }
 
-        /* Noise Texture Overlay */
         .noise-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             pointer-events: none;
             z-index: 50;
             opacity: 0.05;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Custom Cursor */
-        .cursor-dot,
-        .cursor-outline {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .cursor-dot, .cursor-outline {
+            position: fixed; top: 0; left: 0;
             transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 9999;
-            pointer-events: none;
+            border-radius: 50%; z-index: 9999; pointer-events: none;
         }
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: white;
-        }
+        .cursor-dot { width: 8px; height: 8px; background-color: white; }
         .cursor-outline {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             border: 1px solid rgba(255, 255, 255, 0.5);
             transition: width 0.2s, height 0.2s, background-color 0.2s;
         }
-        body:hover .cursor-outline {
-            width: 40px;
-            height: 40px;
-        }
-        body:active .cursor-outline {
-            width: 20px;
-            height: 20px;
-            background-color: rgba(255, 255, 255, 0.1);
-        }
+        body:active .cursor-outline { width: 20px; height: 20px; background-color: rgba(255, 255, 255, 0.1); }
 
-        /* Utilities */
-        .text-stroke {
-            -webkit-text-stroke: 1px rgba(255,255,255,0.2);
-            color: transparent;
-        }
+        .text-stroke { -webkit-text-stroke: 1px rgba(255,255,255,0.2); color: transparent; }
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
         .reveal-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
+            opacity: 0; transform: translateY(30px);
             transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
         }
-        .reveal-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal-on-scroll.visible { opacity: 1; transform: translateY(0); }
 
-        /* Gradient Text */
         .gradient-text {
             background: linear-gradient(to right, #fff, #818cf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
-        /* Image Fallback Styling */
-        img {
-            background-color: #1a1a1a;
-            position: relative;
-        }
+
+        img { background-color: #1a1a1a; position: relative; }
         img::after {
-            content: attr(alt);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #111;
-            color: #555;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            padding: 1rem;
-            text-align: center;
+            content: attr(alt); position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #111; color: #555;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; padding: 1rem; text-align: center;
         }
+
+        /* Archive hidden rows */
+        .archive-hidden {
+            display: none;
+        }
+        .archive-hidden.show {
+            display: table-row;
+            animation: fadeSlideIn 0.4s ease forwards;
+        }
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+         /* Show More Button */
+        .show-more-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 9999px;
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(10px);
+            color: #d1d5db;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            overflow: hidden;
+            transition: border-color 0.3s, color 0.3s, box-shadow 0.3s;
+        }
+        .show-more-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #6366f1, #7c3aed);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 0;
+        }
+        .show-more-btn:hover::before { opacity: 1; }
+        .show-more-btn:hover {
+            border-color: #6366f1;
+            color: #fff;
+            box-shadow: 0 0 28px rgba(99,102,241,0.4);
+        }
+        .show-more-btn span,
+        .show-more-btn i { position: relative; z-index: 1; }
+        .show-more-btn i {
+            transition: transform 0.3s ease;
+        }
+        .show-more-btn.open i { transform: rotate(180deg); }
+
+        /* Stagger the opacity transition for each hidden row */
+        .archive-hidden:nth-of-type(1) td { transition-delay: 0ms,   0ms,   0ms;   }
+        .archive-hidden:nth-of-type(2) td { transition-delay: 60ms,  60ms,  60ms;  }
+        .archive-hidden:nth-of-type(3) td { transition-delay: 120ms, 120ms, 120ms; }
     </style>
 </head>
 <body class="bg-dark text-gray-200 overflow-x-hidden selection:bg-accent selection:text-white cursor-none">
     
-    <!-- Noise Overlay -->
     <div class="noise-overlay"></div>
-
-    <!-- Custom Cursor -->
     <div class="cursor-dot hidden md:block"></div>
     <div class="cursor-outline hidden md:block"></div>
 
@@ -194,21 +198,15 @@
     <nav class="fixed top-0 left-0 w-full z-40 transition-all duration-300 py-6 px-6 md:px-12 mix-blend-difference" id="navbar">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <a href="#" class="text-2xl font-bold tracking-tighter hover:text-accent transition-colors">MANISH.</a>
-            
-            <!-- Mobile Menu Button -->
             <button class="md:hidden z-50 text-white focus:outline-none" id="menu-btn">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
-
-            <!-- Desktop Menu -->
             <div class="hidden md:flex gap-8 items-center">
                 <a href="#work" class="text-sm font-medium hover:text-accent transition-colors relative group">
-                    WORK
-                    <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full"></span>
+                    WORK<span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full"></span>
                 </a>
                 <a href="#about" class="text-sm font-medium hover:text-accent transition-colors relative group">
-                    ABOUT
-                    <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full"></span>
+                    ABOUT<span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full"></span>
                 </a>
                 <a href="#contact" class="px-5 py-2 border border-white/20 rounded-full text-sm font-medium hover:bg-white hover:text-black transition-all duration-300">
                     LET'S TALK
@@ -217,7 +215,7 @@
         </div>
     </nav>
 
-    <!-- Mobile Menu Overlay -->
+    <!-- Mobile Menu -->
     <div class="fixed inset-0 bg-dark z-40 transform translate-x-full transition-transform duration-500 flex flex-col items-center justify-center gap-8 md:hidden" id="mobile-menu">
         <a href="#work" class="text-3xl font-bold hover:text-accent mobile-link">WORK</a>
         <a href="#about" class="text-3xl font-bold hover:text-accent mobile-link">ABOUT</a>
@@ -227,30 +225,25 @@
     <main>
         <!-- Hero Section -->
         <section class="min-h-screen flex flex-col lg:flex-row items-center justify-center px-6 md:px-12 relative overflow-hidden pt-20">
-            <!-- Background Elements -->
             <div class="bg-grid-pattern"></div>
             <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[120px] -z-10 animate-pulse-slow"></div>
             <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[100px] -z-10"></div>
 
             <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <!-- Left Content -->
                 <div class="z-10">
                     <div class="mb-6 flex items-center gap-4 reveal-on-scroll">
                         <span class="w-12 h-[1px] bg-accent"></span>
                         <span class="uppercase tracking-widest text-sm text-accent-glow font-medium">Available for work</span>
                     </div>
-                    
                     <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tighter mb-8 reveal-on-scroll" style="transition-delay: 100ms;">
                         CREATIVE<br>
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gray-500">DEVELOPER</span><br>
                         & <span class="text-stroke hover:text-accent transition-colors duration-500 cursor-default">DESIGNER</span>
                     </h1>
-                    
                     <p class="max-w-lg text-lg md:text-xl text-gray-400 leading-relaxed mb-10 reveal-on-scroll border-l-2 border-white/10 pl-6" style="transition-delay: 200ms;">
                         I'm Manish Shah. I craft digital experiences where creativity meets logic. 
                         Specializing in responsive web design, modern UI/UX, and full-stack development.
                     </p>
-
                     <div class="flex flex-wrap gap-6 reveal-on-scroll" style="transition-delay: 300ms;">
                         <a href="#work" class="group relative px-8 py-4 bg-white text-dark rounded-full font-semibold overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] transition-shadow duration-300">
                             <span class="relative z-10 group-hover:text-white transition-colors duration-300">View My Work</span>
@@ -262,80 +255,34 @@
                     </div>
                 </div>
 
-                <!-- Right Visual (3D Code Card) -->
                 <div class="flex justify-center lg:justify-end items-center relative reveal-on-scroll mt-12 lg:mt-0 scale-75 md:scale-100" style="transition-delay: 400ms;">
-                    <!-- Animated Container -->
                     <div class="relative w-[450px] h-[450px] transition-transform duration-500 hover:[transform:perspective(1000px)_rotateX(0deg)_rotateY(0deg)] [transform:perspective(1000px)_rotateX(5deg)_rotateY(-5deg)]">
-                        
-                        <!-- Floating Glow Behind -->
                         <div class="absolute inset-0 bg-gradient-to-br from-accent/30 to-purple-600/30 rounded-full blur-3xl animate-pulse-slow"></div>
-
-                        <!-- Main Code Window -->
                         <div class="absolute top-10 left-10 right-0 bottom-10 bg-[#0f0f12]/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden group">
-                            <!-- Window Header -->
                             <div class="h-8 bg-white/5 border-b border-white/5 flex items-center px-4 gap-2">
                                 <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
                                 <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                                 <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
                                 <div class="ml-auto text-[10px] text-gray-500 font-mono">portfolio.config.js</div>
                             </div>
-                            
-                            <!-- Code Content -->
                             <div class="p-6 font-mono text-sm text-gray-300 space-y-2 overflow-hidden">
-                                <div class="flex">
-                                    <span class="text-gray-600 w-6 select-none">1</span>
-                                    <p><span class="text-purple-400">const</span> <span class="text-blue-400">developer</span> = {</p>
-                                </div>
-                                <div class="flex">
-                                    <span class="text-gray-600 w-6 select-none">2</span>
-                                    <p class="pl-4">name: <span class="text-green-400">'Manish Shah'</span>,</p>
-                                </div>
-                                <div class="flex">
-                                    <span class="text-gray-600 w-6 select-none">3</span>
-                                    <p class="pl-4">role: <span class="text-green-400">'Creative Dev'</span>,</p>
-                                </div>
-                                <div class="flex">
-                                    <span class="text-gray-600 w-6 select-none">4</span>
-                                    <p class="pl-4">skills: [</p>
-                                </div>
-                                <div class="flex">
-                                    <span class="text-gray-600 w-6 select-none">5</span>
-                                    <p class="pl-8"><span class="text-yellow-300">'JavaScript'</span>, <span class="text-cyan-400">'React'</span>,</p>
-                                </div>
-                                <div class="flex">
-                                    <span class="text-gray-600 w-6 select-none">6</span>
-                                    <p class="pl-8"><span class="text-red-400">'HTML5'</span>, <span class="text-blue-500">'CSS3'</span></p>
-                                </div>
-                                <div class="flex">
-                                    <span class="text-gray-600 w-6 select-none">7</span>
-                                    <p class="pl-4">],</p>
-                                </div>
-                                <div class="flex">
-                                    <span class="text-gray-600 w-6 select-none">8</span>
-                                    <p class="pl-4">hardWorker: <span class="text-orange-400">true</span>,</p>
-                                </div>
-                                <div class="flex">
-                                    <span class="text-gray-600 w-6 select-none">9</span>
-                                    <p class="pl-4">quickLearner: <span class="text-orange-400">true</span></p>
-                                </div>
-                                <div class="flex">
-                                    <span class="text-gray-600 w-6 select-none">10</span>
-                                    <p>}</p>
-                                </div>
-                                <!-- Typing Cursor -->
-                                <div class="flex mt-2">
-                                    <span class="text-gray-600 w-6 select-none">11</span>
-                                    <p class="pl-4"><span class="w-2 h-4 bg-accent animate-pulse inline-block align-middle"></span></p>
-                                </div>
+                                <div class="flex"><span class="text-gray-600 w-6 select-none">1</span><p><span class="text-purple-400">const</span> <span class="text-blue-400">developer</span> = {</p></div>
+                                <div class="flex"><span class="text-gray-600 w-6 select-none">2</span><p class="pl-4">name: <span class="text-green-400">'Manish Shah'</span>,</p></div>
+                                <div class="flex"><span class="text-gray-600 w-6 select-none">3</span><p class="pl-4">role: <span class="text-green-400">'Creative Dev'</span>,</p></div>
+                                <div class="flex"><span class="text-gray-600 w-6 select-none">4</span><p class="pl-4">skills: [</p></div>
+                                <div class="flex"><span class="text-gray-600 w-6 select-none">5</span><p class="pl-8"><span class="text-yellow-300">'Next.js'</span>, <span class="text-cyan-400">'React'</span>,</p></div>
+                                <div class="flex"><span class="text-gray-600 w-6 select-none">8</span><p class="pl-8"><span class="text-pink-400">'Figma'</span>, <span class="text-orange-300">'Node.js'</span></p></div>
+                                <div class="flex"><span class="text-gray-600 w-6 select-none">6</span><p class="pl-8"><span class="text-red-400">'Java'</span>, <span class="text-blue-500">'PHP'</span></p></div>
+                                <div class="flex"><span class="text-gray-600 w-6 select-none">7</span><p class="pl-4">],</p></div>
+                                <div class="flex"><span class="text-gray-600 w-6 select-none">8</span><p class="pl-4">hardWorker: <span class="text-orange-400">true</span>,</p></div>
+                                <div class="flex"><span class="text-gray-600 w-6 select-none">9</span><p class="pl-4">quickLearner: <span class="text-orange-400">true</span></p></div>
+                                <div class="flex"><span class="text-gray-600 w-6 select-none">10</span><p>}</p></div>
+                                <div class="flex mt-2"><span class="text-gray-600 w-6 select-none">11</span><p class="pl-4"><span class="w-2 h-4 bg-accent animate-pulse inline-block align-middle"></span></p></div>
                             </div>
                         </div>
-
-                        <!-- Floating Element 1 (React) -->
                         <div class="absolute -right-2 top-20 bg-[#1a1a1a] border border-white/10 p-4 rounded-2xl shadow-xl animate-float z-20">
                             <i class="fab fa-react text-4xl text-[#61DAFB] animate-spin-slow"></i>
                         </div>
-
-                        <!-- Floating Element 2 (Stats) -->
                         <div class="absolute left-0 bottom-16 bg-[#1a1a1a]/90 backdrop-blur border border-white/10 px-5 py-3 rounded-xl shadow-xl animate-float z-20" style="animation-delay: 2s;">
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
@@ -347,45 +294,33 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
 
-            <!-- Scroll Indicator -->
             <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block">
                 <i class="fas fa-arrow-down text-gray-500"></i>
             </div>
         </section>
 
-        <!-- Infinite Marquee - Tech Stack -->
+        <!-- Marquee -->
         <section class="py-12 border-y border-white/5 bg-black/50 backdrop-blur-sm overflow-hidden">
             <div class="flex whitespace-nowrap animate-marquee hover:pause">
-                <!-- Tech Items Duplicated for smooth loop -->
                 <div class="flex gap-16 mx-8 text-2xl md:text-4xl font-bold text-gray-500 uppercase opacity-50 items-center">
-                    <span>HTML5</span><span>•</span>
-                    <span>CSS3</span><span>•</span>
-                    <span>JavaScript</span><span>•</span>
-                    <span class="text-accent">React</span><span>•</span>
-                    <span>Next.js</span><span>•</span>
-                    <span>Tailwind</span><span>•</span>
-                    <span>Node.js</span><span>•</span>
-                    <span>Git</span><span>•</span>
-                    <span>UI/UX</span><span>•</span>
-                    <span>Figma</span><span>•</span>
-                    <span>Sass</span><span>•</span>
-                     <!-- Duplicate -->
-                    <span>HTML5</span><span>•</span>
-                    <span>CSS3</span><span>•</span>
-                    <span>JavaScript</span><span>•</span>
-                    <span class="text-accent">React</span><span>•</span>
-                    <span>Next.js</span><span>•</span>
-                    <span>Tailwind</span><span>•</span>
-                    <span>Node.js</span><span>•</span>
-                    <span>Git</span><span>•</span>
-                    <span>UI/UX</span><span>•</span>
-                    <span>Figma</span><span>•</span>
-                    <span>Sass</span><span>•</span>
+                    <!-- <span>HTML5</span><span>•</span><span>CSS3</span><span>•</span><span>JavaScript</span><span>•</span>
+                    <span class="text-accent">React</span><span>•</span><span>Next.js</span><span>•</span><span>Tailwind</span><span>•</span>
+                    <span>Node.js</span><span>•</span><span>Git</span><span>•</span><span>UI/UX</span><span>•</span><span>Figma</span><span>•</span><span>Sass</span><span>•</span>
+                    <span>HTML5</span><span>•</span><span>CSS3</span><span>•</span><span>JavaScript</span><span>•</span>
+                    <span class="text-accent">React</span><span>•</span><span>Next.js</span><span>•</span><span>Tailwind</span><span>•</span>
+                    <span>Node.js</span><span>•</span><span>Git</span><span>•</span><span>UI/UX</span><span>•</span><span>Figma</span><span>•</span><span>Sass</span><span>•</span> -->
+                    <span>HTML5</span><span>•</span><span>CSS3</span><span>•</span><span>JavaScript</span><span>•</span>
+                    <span class="text-accent">React</span><span>•</span><span>Next.js</span><span>•</span><span>Tailwind</span><span>•</span>
+                    <span>Node.js</span><span>•</span><span>Git</span><span>•</span><span>UI/UX</span><span>•</span><span>Figma</span><span>•</span><span>Sass</span><span>•</span>
+                    <span>Python</span><span>•</span><span>PHP</span><span>•</span><span>Java</span><span>•</span>
+                    <span>HTML5</span><span>•</span><span>CSS3</span><span>•</span><span>JavaScript</span><span>•</span>
+<                   span class="text-accent">React</span><span>•</span><span>Next.js</span><span>•</span><span>Tailwind</span><span>•</span>
+                    <span>Node.js</span><span>•</span><span>Git</span><span>•</span><span>UI/UX</span><span>•</span><span>Figma</span><span>•</span><span>Sass</span><span>•</span>
+                    <span>Python</span><span>•</span><span>PHP</span><span>•</span><span>Java</span><span>•</span>
                 </div>
             </div>
         </section>
@@ -393,8 +328,6 @@
         <!-- About & Bento Grid Section -->
         <section id="about" class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 h-full">
-                
-                <!-- Profile & Bio (Span 2 cols) -->
                 <div class="md:col-span-2 glass-card rounded-3xl p-6 md:p-8 flex flex-col justify-between reveal-on-scroll md:h-[420px]">
                     <div>
                         <div class="flex items-center gap-3 mb-6">
@@ -413,52 +346,33 @@
                         </p>
                     </div>
                     <div class="mt-6 flex gap-4">
-                        <a href="https://github.com/Manish-Shah-m" target="_blank" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300">
-                            <i class="fab fa-github text-xl"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/manish-shah-8558392a7" target="_blank" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300">
-                            <i class="fab fa-linkedin-in text-xl"></i>
-                        </a>
-                        <a href="https://www.instagram.com/_manish_who" target="_blank" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300">
-                            <i class="fab fa-instagram text-xl"></i>
-                        </a>
+                        <a href="https://github.com/Manish-Shah-m" target="_blank" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300"><i class="fab fa-github text-xl"></i></a>
+                        <a href="https://www.linkedin.com/in/manish-shah-8558392a7" target="_blank" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300"><i class="fab fa-linkedin-in text-xl"></i></a>
+                        <a href="https://www.instagram.com/_manish_who" target="_blank" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300"><i class="fab fa-instagram text-xl"></i></a>
                     </div>
                 </div>
-
-                <!-- Photo / Visual (Span 1 col) -->
                 <div class="md:col-span-1 glass-card rounded-3xl overflow-hidden relative group h-80 md:h-[420px] reveal-on-scroll" style="transition-delay: 100ms;">
                     <div class="absolute inset-0 bg-accent/10 z-10 group-hover:bg-transparent transition-colors duration-500"></div>
-                    <img src="image/me2.jpeg" alt="Manish Shah" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 grayscale group-hover:grayscale-0">
+                    <img src="image/huhu.jpeg" alt="Manish Shah" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 grayscale group-hover:grayscale-0">
                     <div class="absolute bottom-0 left-0 w-full p-6 z-20 bg-gradient-to-t from-black/90 to-transparent">
                         <p class="font-bold text-xl">Manish Shah</p>
                         <p class="text-sm text-gray-400">Creative Developer</p>
                     </div>
                 </div>
-
-                <!-- Skill Card 1 (Frontend) -->
                 <div class="glass-card rounded-3xl p-8 flex flex-col justify-center items-center text-center group hover:bg-accent/10 transition-colors reveal-on-scroll h-[250px]">
-                    <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas fa-laptop-code text-3xl text-accent"></i>
-                    </div>
+                    <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300"><i class="fas fa-laptop-code text-3xl text-accent"></i></div>
                     <h3 class="text-xl font-bold mb-2">Frontend</h3>
                     <p class="text-sm text-gray-400">React, Next.js, Tailwind</p>
                 </div>
-
-                <!-- Skill Card 2 (Backend) -->
                 <div class="glass-card rounded-3xl p-8 flex flex-col justify-center items-center text-center group hover:bg-accent/10 transition-colors reveal-on-scroll h-[250px]" style="transition-delay: 100ms;">
-                    <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas fa-server text-3xl text-accent"></i>
-                    </div>
+                    <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300"><i class="fas fa-server text-3xl text-accent"></i></div>
                     <h3 class="text-xl font-bold mb-2">Backend</h3>
-                    <p class="text-sm text-gray-400">Node.js, MySQL, Java</p>
+                    <p class="text-sm text-gray-400">Node.js, MySQL, Java, PHP</p>
                 </div>
-
-                <!-- Stats / Callout -->
                 <div class="glass-card rounded-3xl p-8 flex flex-col justify-center items-center text-center bg-gradient-to-br from-accent to-purple-900 border-none reveal-on-scroll h-[250px]" style="transition-delay: 200ms;">
                     <h3 class="text-5xl font-bold mb-2">100%</h3>
                     <p class="text-sm text-white/80 uppercase tracking-widest">Commitment</p>
                 </div>
-
             </div>
         </section>
 
@@ -474,153 +388,121 @@
                         View All Repos <i class="fas fa-arrow-right transform -rotate-45 group-hover:rotate-0 transition-transform"></i>
                     </a>
                 </div>
-
                 <div class="space-y-24">
-                    
                     <!-- Project 1 -->
                     <div class="group relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center reveal-on-scroll">
                         <div class="order-2 lg:order-1">
-                            <div class="flex items-center gap-4 mb-4 text-accent font-mono text-sm">
-                                <span>01</span>
-                                <span class="h-[1px] w-12 bg-accent"></span>
-                                <span>Student portal</span>
-                            </div>
-                            <h3 class="text-3xl md:text-4xl font-bold mb-4 group-hover:text-accent transition-colors">BIT NEPAL</h3>
-                            <p class="text-gray-400 leading-relaxed mb-6 max-w-md">
-                                    A comprehensive platform for BIT students to access past questions, important topics, project ideas, presentation tips, study materials, and resources to excel in academics and projects.                            </p>
+                            <div class="flex items-center gap-4 mb-4 text-accent font-mono text-sm"><span>01</span><span class="h-[1px] w-12 bg-accent"></span><span>Student portal</span></div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4 group-hover:text-accent transition-colors">
+                                <a href="https://bi-twebsite.vercel.app/" target="_blank" class="project-title-link">BIT NEPAL</a>
+                            </h3>
+                            <p class="text-gray-400 leading-relaxed mb-6 max-w-md">A comprehensive platform for BIT students to access past questions, important topics, project ideas, presentation tips, study materials, and resources to excel in academics and projects.</p>
                             <div class="flex gap-3 mb-8 flex-wrap">
                                 <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">NEXT.JS</span>
                                 <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">SUPABASE</span>
                                 <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">VERCEL</span>
                             </div>
-                            <a href="https://bi-twebsite.vercel.app/" target="_blank" class="inline-flex items-center gap-2 font-bold hover:text-accent transition-colors">
-                                View Project <i class="fas fa-arrow-right"></i>
-                            </a>
+                            <a href="https://bi-twebsite.vercel.app/" target="_blank" class="inline-flex items-center gap-2 font-bold hover:text-accent transition-colors">View Project <i class="fas fa-arrow-right"></i></a>
                         </div>
-                        <div class="order-1 lg:order-2 relative overflow-hidden rounded-2xl">
+                        <a href="https://bi-twebsite.vercel.app/" target="_blank" class="order-1 lg:order-2 relative overflow-hidden rounded-2xl project-image-link">
                             <div class="absolute inset-0 bg-accent/20 group-hover:bg-transparent z-10 transition-colors duration-500"></div>
-                            <img src="image/BitNepal.png" alt="STITCH & HUE" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700">
-                        </div>
+                            <img src="image/BitNepal.png" alt="BIT Nepal" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700">
+                        </a>
                     </div>
-
                     <!-- Project 2 -->
                     <div class="group relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center reveal-on-scroll">
                         <div class="order-2 lg:order-2">
-                            <div class="flex items-center gap-4 mb-4 text-accent font-mono text-sm">
-                                <span>02</span>
-                                <span class="h-[1px] w-12 bg-accent"></span>
-                                <span>Health & Wellness</span>
-                            </div>
-                            <h3 class="text-3xl md:text-4xl font-bold mb-4 group-hover:text-accent transition-colors">Pregnancy Guide Nepal</h3>
-                            <p class="text-gray-400 leading-relaxed mb-6 max-w-md">
-                                    A complete pregnancy and early motherhood resource for Nepali mothers, offering guides, nutrition plans, medical alerts, baby care tips, and mental wellness support                            </p>
+                            <div class="flex items-center gap-4 mb-4 text-accent font-mono text-sm"><span>02</span><span class="h-[1px] w-12 bg-accent"></span><span>Health &amp; Wellness</span></div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4 group-hover:text-accent transition-colors">
+                                <a href="https://pregnancy-nepal.vercel.app/" target="_blank" class="project-title-link">Pregnancy Guide Nepal</a>
+                            </h3>
+                            <p class="text-gray-400 leading-relaxed mb-6 max-w-md">A complete pregnancy and early motherhood resource for Nepali mothers, offering guides, nutrition plans, medical alerts, baby care tips, and mental wellness support.</p>
                             <div class="flex gap-3 mb-8 flex-wrap">
                                 <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">NEXT.JS</span>
                                 <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">REACT</span>
                                 <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">VERCEL</span>
                             </div>
-                            <a href="https://pregnancy-nepal.vercel.app/" target="_blank" class="inline-flex items-center gap-2 font-bold hover:text-accent transition-colors">
-                                View Project <i class="fas fa-arrow-right"></i>
-                            </a>
+                            <a href="https://pregnancy-nepal.vercel.app/" target="_blank" class="inline-flex items-center gap-2 font-bold hover:text-accent transition-colors">View Project <i class="fas fa-arrow-right"></i></a>
                         </div>
-                        <div class="order-1 lg:order-1 relative overflow-hidden rounded-2xl">
+                        <a href="https://pregnancy-nepal.vercel.app/" target="_blank" class="order-1 lg:order-1 relative overflow-hidden rounded-2xl project-image-link">
                             <div class="absolute inset-0 bg-accent/20 group-hover:bg-transparent z-10 transition-colors duration-500"></div>
-                            <img src="image/PREGNANCY.png" alt="Himalayan Home" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700">
-                        </div>
+                            <img src="image/PREGNANCY.png" alt="Pregnancy Guide Nepal" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700">
+                        </a>
                     </div>
-
                     <!-- Project 3 -->
                     <div class="group relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center reveal-on-scroll">
                         <div class="order-2 lg:order-1">
-                            <div class="flex items-center gap-4 mb-4 text-accent font-mono text-sm">
-                                <span>03</span>
-                                <span class="h-[1px] w-12 bg-accent"></span>
-                                <span>Agriculture</span>
-                            </div>
-                            <h3 class="text-3xl md:text-4xl font-bold mb-4 group-hover:text-accent transition-colors">AgriConnect</h3>
-                            <p class="text-gray-400 leading-relaxed mb-6 max-w-md">
-                                A platform connecting farmers and consumers with a marketplace, crop suggestions, and resources for smarter farming and fresh produce.                            </p>
+                            <div class="flex items-center gap-4 mb-4 text-accent font-mono text-sm"><span>03</span><span class="h-[1px] w-12 bg-accent"></span><span>Agriculture</span></div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4 group-hover:text-accent transition-colors">
+                                <a href="https://agrinepal.vercel.app/" target="_blank" class="project-title-link">AgriConnect</a>
+                            </h3>
+                            <p class="text-gray-400 leading-relaxed mb-6 max-w-md">A platform connecting farmers and consumers with a marketplace, crop suggestions, and resources for smarter farming and fresh produce.</p>
                             <div class="flex gap-3 mb-8 flex-wrap">
                                 <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">REACT</span>
                                 <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">NEXT.JS</span>
                                 <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">VERCEL</span>
-
                             </div>
-                            <a href="https://agrinepal.vercel.app/" target="_blank" class="inline-flex items-center gap-2 font-bold hover:text-accent transition-colors">
-                                View Project <i class="fas fa-arrow-right"></i>
-                            </a>
+                            <a href="https://agrinepal.vercel.app/" target="_blank" class="inline-flex items-center gap-2 font-bold hover:text-accent transition-colors">View Project <i class="fas fa-arrow-right"></i></a>
                         </div>
-                        <div class="order-1 lg:order-2 relative overflow-hidden rounded-2xl">
+                        <a href="https://agrinepal.vercel.app/" target="_blank" class="order-1 lg:order-2 relative overflow-hidden rounded-2xl project-image-link">
                             <div class="absolute inset-0 bg-accent/20 group-hover:bg-transparent z-10 transition-colors duration-500"></div>
-                            <img src="image/AgriConnect.png" alt="ATOM" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700">
-                        </div>
+                            <img src="image/AgriConnect.png" alt="AgriConnect" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700">
+                        </a>
                     </div>
-
                     <!-- Project 4 -->
                     <div class="group relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center reveal-on-scroll">
                         <div class="order-2 lg:order-2">
-                            <div class="flex items-center gap-4 mb-4 text-accent font-mono text-sm">
-                                <span>04</span>
-                                <span class="h-[1px] w-12 bg-accent"></span>
-                                <span>Food ordering / E-commerce</span>
-                            </div>
-                            <h3 class="text-3xl md:text-4xl font-bold mb-4 group-hover:text-accent transition-colors">Himalayan Delights</h3>
-                            <p class="text-gray-400 leading-relaxed mb-6 max-w-md">
-                                An online food ordering platform with admin login for updating menus, prices, and descriptions — featuring add-to-cart, checkout demo, and seamless ordering experience.                            </p>
+                            <div class="flex items-center gap-4 mb-4 text-accent font-mono text-sm"><span>04</span><span class="h-[1px] w-12 bg-accent"></span><span>Food ordering / E-commerce</span></div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4 group-hover:text-accent transition-colors">
+                                <a href="https://manish-shah-m.github.io/Himalayan-Delights/" target="_blank" class="project-title-link">Himalayan Delights</a>
+                            </h3>
+                            <p class="text-gray-400 leading-relaxed mb-6 max-w-md">An online food ordering platform with admin login for updating menus, prices, and descriptions — featuring add-to-cart, checkout demo, and seamless ordering experience.</p>
                             <div class="flex gap-3 mb-8 flex-wrap">
                                 <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">HTML</span>
                                 <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">BOOTSTRAP</span>
                                 <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">JAVASCRIPT</span>
                             </div>
-                            <a href="https://manish-shah-m.github.io/Himalayan-Delights/" target="_blank" class="inline-flex items-center gap-2 font-bold hover:text-accent transition-colors">
-                                View Project <i class="fas fa-arrow-right"></i>
-                            </a>
+                            <a href="https://manish-shah-m.github.io/Himalayan-Delights/" target="_blank" class="inline-flex items-center gap-2 font-bold hover:text-accent transition-colors">View Project <i class="fas fa-arrow-right"></i></a>
                         </div>
-                        <div class="order-1 lg:order-1 relative overflow-hidden rounded-2xl">
+                        <a href="https://manish-shah-m.github.io/Himalayan-Delights/" target="_blank" class="order-1 lg:order-1 relative overflow-hidden rounded-2xl project-image-link">
                             <div class="absolute inset-0 bg-accent/20 group-hover:bg-transparent z-10 transition-colors duration-500"></div>
-                            <img src="image/Himalayan Delights.png" alt="Nepal Green Alliance" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700">
-                        </div>
+                            <img src="image/Himalayan Delights.png" alt="Himalayan Delights" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700">
+                        </a>
                     </div>
-
                     <!-- Project 5 -->
                     <div class="group relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center reveal-on-scroll">
                         <div class="order-2 lg:order-1">
-                            <div class="flex items-center gap-4 mb-4 text-accent font-mono text-sm">
-                                <span>05</span>
-                                <span class="h-[1px] w-12 bg-accent"></span>
-                                <span>Health & Wellness</span>
-                            </div>
-                            <h3 class="text-3xl md:text-4xl font-bold mb-4 group-hover:text-accent transition-colors">MindEase</h3>
-                            <p class="text-gray-400 leading-relaxed mb-6 max-w-md">
-                                A safe and caring digital space that provides mental health guidance, therapy support, self-care tools, mood tracking, and resources to help individuals heal, grow, and find balance.                            </p>
+                            <div class="flex items-center gap-4 mb-4 text-accent font-mono text-sm"><span>05</span><span class="h-[1px] w-12 bg-accent"></span><span>Health &amp; Wellness</span></div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4 group-hover:text-accent transition-colors">
+                                <a href="https://manish-shah-m.github.io/Hope-Harbor/" target="_blank" class="project-title-link">MindEase</a>
+                            </h3>
+                            <p class="text-gray-400 leading-relaxed mb-6 max-w-md">A safe and caring digital space that provides mental health guidance, therapy support, self-care tools, mood tracking, and resources to help individuals heal, grow, and find balance.</p>
                             <div class="flex gap-3 mb-8 flex-wrap">
                                 <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">TAILWIND</span>
                                 <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">JS</span>
                                 <span class="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300">HTML</span>
                             </div>
-                            <a href="https://manish-shah-m.github.io/MindEase-/" target="_blank" class="inline-flex items-center gap-2 font-bold hover:text-accent transition-colors">
-                                View Project <i class="fas fa-arrow-right"></i>
-                            </a>
+                            <a href="https://manish-shah-m.github.io/Hope-Harbor/" target="_blank" class="inline-flex items-center gap-2 font-bold hover:text-accent transition-colors">View Project <i class="fas fa-arrow-right"></i></a>
                         </div>
-                        <div class="order-1 lg:order-2 relative overflow-hidden rounded-2xl">
+                        <a href="https://manish-shah-m.github.io/Hope-Harbor/" target="_blank" class="order-1 lg:order-2 relative overflow-hidden rounded-2xl project-image-link">
                             <div class="absolute inset-0 bg-accent/20 group-hover:bg-transparent z-10 transition-colors duration-500"></div>
-                            <img src="image/MindEase.png" alt="Weather Dashboard" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700">
-                        </div>
+                            <img src="image/hope.png" alt="MindEase" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700">
+                        </a>
                     </div>
-
                 </div>
             </div>
         </section>
-
-        <!-- Archive / Journey Section -->
+ 
+        <!-- ======================== Archive / Journey Section ======================== -->
         <section class="py-24 px-6 md:px-12 border-t border-white/5 bg-dark/50">
             <div class="max-w-7xl mx-auto">
                 <div class="flex flex-col md:flex-row justify-between items-end mb-12 reveal-on-scroll">
                     <h2 class="text-4xl md:text-5xl font-bold">The Journey <span class="text-gray-500 text-2xl block mt-2">Archive</span></h2>
                     <p class="text-gray-400 max-w-lg text-left md:text-right mt-6 md:mt-0 pb-2 leading-relaxed">
-                        A visual journey of my growth as a developer — highlighting projects, contributions, and milestones.                    </p>
+                        A visual journey of my growth as a developer — highlighting projects, contributions, and milestones.
+                    </p>
                 </div>
-                
+ 
                 <div class="overflow-x-auto reveal-on-scroll">
                     <table class="w-full text-left text-sm md:text-base border-collapse">
                         <thead class="text-gray-500 border-b border-white/10">
@@ -632,147 +514,188 @@
                                 <th class="py-4 font-medium">Link</th>
                             </tr>
                         </thead>
-                        <tbody class="text-gray-300">
-                            <!-- 2025 -->
-                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                        <tbody class="text-gray-300" id="archive-tbody">
+                            <!-- Always visible rows -->
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group archive-row" data-href="https://manish-shah-m.github.io/Aura/">
+                                <td class="py-4 pr-8 text-gray-500">2025</td>
+                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">Aura Fashion</td>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">A modern fashion website built with GSAP-powered animations and immersive user interactions.</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell">
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Gsap</span>
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Tailwind</span>
+                                    </div>
+                                </td>
+                                <td class="py-4"><a href="https://manish-shah-m.github.io/Aura/" target="_blank" class="hover:text-accent transition-colors" onclick="event.stopPropagation()"><i class="fas fa-arrow-right transform -rotate-45"></i></a></td>
+                            </tr>
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group archive-row" data-href="https://github.com/Manish-Shah-m/HospitalManagementSystem">
                                 <td class="py-4 pr-8 text-gray-500">2025</td>
                                 <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">Hospital Management System</td>
-                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">Admin & User Management Dashboard</td>
-                                <td class="py-4 pr-8 hidden sm:table-cell flex flex-wrap gap-2">
-                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Java</span>
-                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Swing</span>
-                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">MySQL</span>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">A Java and SQL-based hospital management system for streamlined healthcare operations.</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell">
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Java</span>
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Swing</span>
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">MySQL</span>
+                                    </div>
                                 </td>
-                                <td class="py-4">
-                                    <a href="#" class="hover:text-accent transition-colors"><i class="fas fa-arrow-right transform -rotate-45"></i></a>
-                                </td>
+                                <td class="py-4"><a href="https://github.com/Manish-Shah-m/HospitalManagementSystem" target="_blank" class="hover:text-accent transition-colors" onclick="event.stopPropagation()"><i class="fas fa-arrow-right transform -rotate-45"></i></a></td>
                             </tr>
-                           
-                            <!-- 2022 - Nepal Green -->
-                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group archive-row" data-href="https://manish-shah-m.github.io/Nepal-Green/">
                                 <td class="py-4 pr-8 text-gray-500">2024</td>
                                 <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">Nepal Green Alliance</td>
-                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">NGO Website Development</td>
-                                <td class="py-4 pr-8 hidden sm:table-cell flex flex-wrap gap-2">
-                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">JavaScript</span>
-                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">SASS</span>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">NGO Website</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell">
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">JavaScript</span>
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">SASS</span>
+                                    </div>
                                 </td>
-                                <td class="py-4">
-                                    <a href="https://manish-shah-m.github.io/Nepal-Green/" target="_blank" class="hover:text-accent transition-colors"><i class="fas fa-arrow-right transform -rotate-45"></i></a>
-                                </td>
+                                <td class="py-4"><a href="https://manish-shah-m.github.io/Nepal-Green/" target="_blank" class="hover:text-accent transition-colors" onclick="event.stopPropagation()"><i class="fas fa-arrow-right transform -rotate-45"></i></a></td>
                             </tr>
-                            <!-- 2022 - Stitch & Hue -->
-                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group archive-row" data-href="https://manish-shah-m.github.io/STITCH-HUE/">
                                 <td class="py-4 pr-8 text-gray-500">2024</td>
-                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">STITCH & HUE</td>
+                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">STITCH &amp; HUE</td>
                                 <td class="py-4 pr-8 hidden md:table-cell text-gray-400">E-commerce Platform</td>
-                                <td class="py-4 pr-8 hidden sm:table-cell flex flex-wrap gap-2">
-                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Bootstrap</span>
-                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">API</span>
+                                <td class="py-4 pr-8 hidden sm:table-cell">
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Bootstrap</span>
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">API</span>
+                                    </div>
                                 </td>
-                                <td class="py-4">
-                                    <a href="https://manish-shah-m.github.io/STITCH-HUE/" target="_blank" class="hover:text-accent transition-colors"><i class="fas fa-arrow-right transform -rotate-45"></i></a>
-                                </td>
+                                <td class="py-4"><a href="https://manish-shah-m.github.io/STITCH-HUE/" target="_blank" class="hover:text-accent transition-colors" onclick="event.stopPropagation()"><i class="fas fa-arrow-right transform -rotate-45"></i></a></td>
                             </tr>
-                            <!-- 2022 - Himalayan Home -->
-                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group">
+ 
+                            <!-- Hidden rows — revealed on click -->
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group archive-hidden archive-row" data-href="https://manish-shah-m.github.io/Himalayan-Home/">
                                 <td class="py-4 pr-8 text-gray-500">2024</td>
                                 <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">Himalayan Home</td>
-                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">Travel & Tourism Website</td>
-                                <td class="py-4 pr-8 hidden sm:table-cell flex flex-wrap gap-2">
-                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">HTML5</span>
-                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">JS</span>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">Travel &amp; Tourism Website</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell">
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">HTML5</span>
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">JS</span>
+                                    </div>
                                 </td>
-                                <td class="py-4">
-                                    <a href="https://manish-shah-m.github.io/Himalayan-Home/" target="_blank" class="hover:text-accent transition-colors"><i class="fas fa-arrow-right transform -rotate-45"></i></a>
-                                </td>
+                                <td class="py-4"><a href="https://manish-shah-m.github.io/Himalayan-Home/" target="_blank" class="hover:text-accent transition-colors" onclick="event.stopPropagation()"><i class="fas fa-arrow-right transform -rotate-45"></i></a></td>
                             </tr>
-                            
-                            <!-- 2022 - ATOM -->
-                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group archive-hidden archive-row" data-href="https://github.com/Manish-Shah-m/FoodExpress">
                                 <td class="py-4 pr-8 text-gray-500">2024</td>
-                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">ATOM</td>
-                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">Corporate Website</td>
-                                <td class="py-4 pr-8 hidden sm:table-cell flex flex-wrap gap-2">
-                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">SASS</span>
-                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Bootstrap</span>
+                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">FoodExpress</td>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">Food Ordering Platform</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell">
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Java</span>
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Tomcat</span>
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">MySQL</span>
+                                    </div>
                                 </td>
-                                <td class="py-4">
-                                    <a href="https://manish-shah-m.github.io/ATOM/" target="_blank" class="hover:text-accent transition-colors"><i class="fas fa-arrow-right transform -rotate-45"></i></a>
-                                </td>
+                                <td class="py-4"><a href="https://github.com/Manish-Shah-m/FoodExpress" target="_blank" class="hover:text-accent transition-colors" onclick="event.stopPropagation()"><i class="fas fa-arrow-right transform -rotate-45"></i></a></td>
                             </tr>
-                            <!-- 2022 - Weather Dashboard -->
-                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group archive-hidden archive-row" data-href="https://github.com/Manish-Shah-m/newsHUB-">
+                                <td class="py-4 pr-8 text-gray-500">2024</td>
+                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">newsHUB</td>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">News/article Website</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell">
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Php</span>
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">MySQL</span>
+                                    </div>
+                                </td>
+                                <td class="py-4"><a href="https://github.com/Manish-Shah-m/newsHUB-" target="_blank" class="hover:text-accent transition-colors" onclick="event.stopPropagation()"><i class="fas fa-arrow-right transform -rotate-45"></i></a></td>
+                            </tr>
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group archive-hidden archive-row" data-href="https://manish-shah-m.github.io/Himalayan-Home/">
+                                <td class="py-4 pr-8 text-gray-500">2024</td>
+                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">Himalayan Home</td>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">Travel &amp; Tourism Website</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell">
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">HTML5</span>
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">JS</span>
+                                    </div>
+                                </td>
+                                <td class="py-4"><a href="https://manish-shah-m.github.io/Himalayan-Home/" target="_blank" class="hover:text-accent transition-colors" onclick="event.stopPropagation()"><i class="fas fa-arrow-right transform -rotate-45"></i></a></td>
+                            </tr>
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group archive-hidden archive-row" data-href="https://manish-shah-m.github.io/STRUKTUR/">
+                                <td class="py-4 pr-8 text-gray-500">2024</td>
+                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">Struktur</td>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">Neo-brutalism inspired architecture website.</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell">
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">HTML5</span>
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">JS</span>
+                                    </div>
+                                </td>
+                                <td class="py-4"><a href="https://manish-shah-m.github.io/STRUKTUR/" target="_blank" class="hover:text-accent transition-colors" onclick="event.stopPropagation()"><i class="fas fa-arrow-right transform -rotate-45"></i></a></td>
+                            </tr>
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group archive-hidden archive-row" data-href="https://manish-shah-m.github.io/Nexus/">
+                                <td class="py-4 pr-8 text-gray-500">2024</td>
+                                <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">Nexus</td>
+                                <td class="py-4 pr-8 hidden md:table-cell text-gray-400">Corporate Website</td>
+                                <td class="py-4 pr-8 hidden sm:table-cell">
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">SASS</span>
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">Bootstrap</span>
+                                    </div>
+                                </td>
+                                <td class="py-4"><a href="https://manish-shah-m.github.io/Nexus/" target="_blank" class="hover:text-accent transition-colors" onclick="event.stopPropagation()"><i class="fas fa-arrow-right transform -rotate-45"></i></a></td>
+                            </tr>
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors group archive-hidden archive-row" data-href="https://manish-shah-m.github.io/weather-dashboard-/">
                                 <td class="py-4 pr-8 text-gray-500">2023</td>
                                 <td class="py-4 pr-8 font-bold group-hover:text-accent transition-colors">Weather Dashboard</td>
                                 <td class="py-4 pr-8 hidden md:table-cell text-gray-400">Weather Utility App</td>
-                                <td class="py-4 pr-8 hidden sm:table-cell flex flex-wrap gap-2">
-                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">API</span>
-                                    <span class="px-2 py-1 rounded-full bg-white/5 text-xs">JS</span>
+                                <td class="py-4 pr-8 hidden sm:table-cell">
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">API</span>
+                                        <span class="px-2 py-1 rounded-full bg-white/5 text-xs">JS</span>
+                                    </div>
                                 </td>
-                                <td class="py-4">
-                                    <a href="https://manish-shah-m.github.io/weather-dashboard-/" target="_blank" class="hover:text-accent transition-colors"><i class="fas fa-arrow-right transform -rotate-45"></i></a>
-                                </td>
+                                <td class="py-4"><a href="https://manish-shah-m.github.io/weather-dashboard-/" target="_blank" class="hover:text-accent transition-colors" onclick="event.stopPropagation()"><i class="fas fa-arrow-right transform -rotate-45"></i></a></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+ 
+                <!-- Show More / Show Less Button -->
+                <div class="flex justify-center mt-10 reveal-on-scroll">
+                    <button class="show-more-btn" id="archive-toggle" aria-expanded="false">
+                        <span id="btn-label">Show More Projects</span>
+                        <i class="fas fa-chevron-down text-xs" id="btn-icon"></i>
+                    </button>
+                </div>
             </div>
         </section>
+ 
+        <!-- ======================== End Archive Section ======================== -->
 
         <!-- Contact Section -->
         <section id="contact" class="min-h-screen flex flex-col justify-center relative py-24 px-6 md:px-12 overflow-hidden">
-            <!-- Footer Glow -->
             <div class="absolute bottom-[-20%] left-1/2 transform -translate-x-1/2 w-[800px] h-[600px] bg-accent/10 rounded-full blur-[150px] -z-10"></div>
 
             <div class="max-w-7xl mx-auto w-full text-center">
                 <p class="text-accent uppercase tracking-widest text-sm font-bold mb-8 reveal-on-scroll">What's Next?</p>
-                
                 <h2 class="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-12 hover:text-stroke transition-all duration-500 cursor-default reveal-on-scroll">
                     LET'S WORK<br>TOGETHER
                 </h2>
-
                 <div class="flex justify-center mb-16 reveal-on-scroll">
                     <a href="mailto:whoismanish12@gmail.com" class="text-xl md:text-3xl border-b border-white/30 pb-2 hover:text-accent hover:border-accent transition-all">
                         whoismanish12@gmail.com
                     </a>
                 </div>
-
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-2xl mx-auto reveal-on-scroll">
-                    <a href="https://github.com/Manish-Shah-m" target="_blank" class="glass-card p-6 rounded-2xl flex flex-col items-center gap-3 hover:bg-white hover:text-black transition-all duration-300 group">
-                        <i class="fab fa-github text-2xl"></i>
-                        <span class="font-bold">GitHub</span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/manish-shah-8558392a7" target="_blank" class="glass-card p-6 rounded-2xl flex flex-col items-center gap-3 hover:bg-[#0077b5] hover:text-white transition-all duration-300 group">
-                        <i class="fab fa-linkedin text-2xl"></i>
-                        <span class="font-bold">LinkedIn</span>
-                    </a>
-                    <a href="https://www.instagram.com/_manish_who" target="_blank" class="glass-card p-6 rounded-2xl flex flex-col items-center gap-3 hover:bg-[#E1306C] hover:text-white transition-all duration-300 group">
-                        <i class="fab fa-instagram text-2xl"></i>
-                        <span class="font-bold">Instagram</span>
-                    </a>
-                    <a href="mailto:whoismanish12@gmail.com" class="glass-card p-6 rounded-2xl flex flex-col items-center gap-3 hover:bg-accent hover:text-white transition-all duration-300 group">
-                        <i class="fas fa-envelope text-2xl"></i>
-                        <span class="font-bold">Email</span>
-                    </a>
+                    <a href="https://github.com/Manish-Shah-m" target="_blank" class="glass-card p-6 rounded-2xl flex flex-col items-center gap-3 hover:bg-white hover:text-black transition-all duration-300 group"><i class="fab fa-github text-2xl"></i><span class="font-bold">GitHub</span></a>
+                    <a href="https://www.linkedin.com/in/manish-shah-8558392a7" target="_blank" class="glass-card p-6 rounded-2xl flex flex-col items-center gap-3 hover:bg-[#0077b5] hover:text-white transition-all duration-300 group"><i class="fab fa-linkedin text-2xl"></i><span class="font-bold">LinkedIn</span></a>
+                    <a href="https://www.instagram.com/_manish_who" target="_blank" class="glass-card p-6 rounded-2xl flex flex-col items-center gap-3 hover:bg-[#E1306C] hover:text-white transition-all duration-300 group"><i class="fab fa-instagram text-2xl"></i><span class="font-bold">Instagram</span></a>
+                    <a href="mailto:whoismanish12@gmail.com" class="glass-card p-6 rounded-2xl flex flex-col items-center gap-3 hover:bg-accent hover:text-white transition-all duration-300 group"><i class="fas fa-envelope text-2xl"></i><span class="font-bold">Email</span></a>
                 </div>
             </div>
 
             <footer class="absolute bottom-6 left-0 w-full px-6 md:px-12">
                 <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 items-center text-sm text-gray-500 border-t border-white/5 pt-6 gap-4">
-                    <!-- Left: Copyright -->
-                    <div class="text-center md:text-left order-3 md:order-1">
-                        <p>&copy; 2025 Manish Shah.</p>
-                    </div>
-                    
-                    <!-- Center: Crafted Text -->
+                    <div class="text-center md:text-left order-3 md:order-1"><p>&copy; 2025 Manish Shah.</p></div>
                     <div class="text-center order-1 md:order-2 flex justify-center">
-                        <p class="text-gray-400 text-sm font-medium">
-                            Crafted with <span class="text-red-500 animate-pulse">❤️</span> & Code.
-                        </p>
+                        <p class="text-gray-400 text-sm font-medium">Crafted with <span class="text-red-500 animate-pulse">❤️</span> & Code.</p>
                     </div>
-                    
-                    <!-- Right: Time -->
                     <div class="flex items-center justify-center md:justify-end gap-2 order-2 md:order-3">
                         <span class="text-accent font-bold">KTM</span>
                         <span id="nepal-time" class="font-mono text-gray-300 bg-white/5 px-2 py-1 rounded">--:--:--</span>
@@ -786,19 +709,10 @@
         // Custom Cursor
         const cursorDot = document.querySelector('.cursor-dot');
         const cursorOutline = document.querySelector('.cursor-outline');
-
         window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-
-            // Add some delay to the outline for a trailing effect
-            cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: "forwards" });
+            cursorDot.style.left = `${e.clientX}px`;
+            cursorDot.style.top = `${e.clientY}px`;
+            cursorOutline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 500, fill: "forwards" });
         });
 
         // Mobile Menu Toggle
@@ -806,7 +720,6 @@
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
         let isMenuOpen = false;
-
         menuBtn.addEventListener('click', () => {
             isMenuOpen = !isMenuOpen;
             if (isMenuOpen) {
@@ -819,7 +732,6 @@
                 document.body.style.overflow = 'auto';
             }
         });
-
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
                 isMenuOpen = false;
@@ -829,26 +741,19 @@
             });
         });
 
-        // Scroll Reveal Animation
+        // Scroll Reveal
         const revealElements = document.querySelectorAll('.reveal-on-scroll');
-
         const revealOnScroll = () => {
-            const windowHeight = window.innerHeight;
-            const elementVisible = 100;
-
-            revealElements.forEach((reveal) => {
-                const elementTop = reveal.getBoundingClientRect().top;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveal.classList.add('visible');
+            revealElements.forEach((el) => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) {
+                    el.classList.add('visible');
                 }
             });
         };
-
         window.addEventListener('scroll', revealOnScroll);
-        // Trigger once on load
         revealOnScroll();
 
-        // Navbar Glass Effect on Scroll
+        // Navbar scroll effect
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
@@ -863,19 +768,35 @@
         // Nepal Time Clock
         const updateTime = () => {
             const timeElement = document.getElementById('nepal-time');
-            const now = new Date();
-            const options = { 
-                timeZone: 'Asia/Kathmandu', 
-                hour12: true, 
-                hour: 'numeric', 
-                minute: '2-digit',
-                second: '2-digit'
-            };
-            const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
-            if(timeElement) timeElement.textContent = timeString;
+            const timeString = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kathmandu', hour12: true, hour: 'numeric', minute: '2-digit', second: '2-digit' }).format(new Date());
+            if (timeElement) timeElement.textContent = timeString;
         };
         setInterval(updateTime, 1000);
         updateTime();
+
+        // ── Archive Show More / Show Less ──────────────────────────────────────
+        const archiveToggle = document.getElementById('archive-toggle');
+        const hiddenRows    = document.querySelectorAll('.archive-hidden');
+        const btnLabel      = document.getElementById('btn-label');
+        let archiveOpen     = false;
+
+        archiveToggle.addEventListener('click', () => {
+            archiveOpen = !archiveOpen;
+
+            hiddenRows.forEach((row, i) => {
+                if (archiveOpen) {
+                    // Show with staggered delay
+                    setTimeout(() => row.classList.add('show'), i * 60);
+                } else {
+                    row.classList.remove('show');
+                }
+            });
+
+            btnLabel.textContent  = archiveOpen ? 'Show Less' : 'Show More Projects';
+            archiveToggle.setAttribute('aria-expanded', archiveOpen);
+            archiveToggle.classList.toggle('open', archiveOpen);
+        });
+        // ───────────────────────────────────────────────────────────────────────
     </script>
 </body>
 </html>
